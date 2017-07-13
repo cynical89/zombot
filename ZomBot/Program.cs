@@ -81,6 +81,7 @@ namespace ZomBot
                         if (user.Messages >= nextLevelValue)
                         {
                             user.Level += 1;
+                            await e.Message.RespondAsync($"I sense a level {user.Level} brain in {e.Message.Author.Mention}.. yum");
                         }
                     }
 
