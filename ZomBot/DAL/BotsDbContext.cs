@@ -16,7 +16,11 @@ namespace ZomBot.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=bots;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            if(String.IsNullOrEmpty(Configuration.Config.ConnectionString))
+            {
+                Configuration.SetupConfig();
+            }
+            options.UseSqlServer(Configuration.Config.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

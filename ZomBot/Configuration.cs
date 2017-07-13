@@ -12,14 +12,14 @@ namespace ZomBot
     {
         public static ConfigModel Config = new ConfigModel();
 
-        public static async Task SetupConfig()
+        public static void SetupConfig()
         {
             var json = "";
             using (var fs = File.OpenRead("config.json"))
             {
                 using (var sr = new StreamReader(fs, new UTF8Encoding(false)))
                 {
-                    json = await sr.ReadToEndAsync();
+                    json = sr.ReadToEnd();
                 }
             }
             Config = JsonConvert.DeserializeObject<ConfigModel>(json);

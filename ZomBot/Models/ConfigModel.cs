@@ -15,5 +15,8 @@ namespace ZomBot.Models
 
         [JsonProperty("ytkey")]
         public string YoutubeKey { get; private set; }
+
+        [JsonProperty("connectionString")]
+        public string ConnectionString { get; private set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿{
   "token": "bot token goes here",
   "cmdPrefix": "#",
-  "ytkey": "you tube api key"
+  "ytkey": "you tube api key",
+  "connectionString": "string goes here"
 }

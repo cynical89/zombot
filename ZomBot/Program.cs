@@ -20,7 +20,7 @@ namespace ZomBot
 
         public static async Task Run()
         {
-            await Configuration.SetupConfig();
+            Configuration.SetupConfig();
 
             var discord = new DiscordClient(new DiscordConfig
             {
@@ -67,6 +67,7 @@ namespace ZomBot
                 {
                     if (e.Message.Content.ToLower() == "ping")
                         await e.Message.RespondAsync("pong");
+                    return;
                 }
                 var name = $"{e.Message.Author.Username}#{e.Message.Author.Discriminator}";
                 if (LevelDAL.UserDoesExists(name, e.Guild.Name))
