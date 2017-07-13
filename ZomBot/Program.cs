@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 using ZomBot.Models;
+using ZomBot.DAL;
 
 namespace ZomBot
 {
@@ -60,18 +61,39 @@ namespace ZomBot
                 await e.Channel.SendMessageAsync("Does this mean more bains to eat?");
             };
 
-            discord.GuildAvailable += e =>
-            {
-                discord.DebugLogger.LogMessage(LogLevel.Info, "discord bot", $"Guild available: {e.Guild.Name}", DateTime.Now);
-                return Task.Delay(0);
-            };
-
             discord.MessageCreated += async e =>
             {
-                if (!e.Message.Author.IsBot)
+                if (e.Message.Author.IsBot)
                 {
                     if (e.Message.Content.ToLower() == "ping")
                         await e.Message.RespondAsync("pong");
+                }
+                var name = $"{e.Message.Author.Username}#{e.Message.Author.Discriminator}";
+                if (LevelDAL.UserDoesExists(name, e.Guild.Name))
+                {
+                    var user = LevelDAL.GetUserLevel(name, e.Guild.Name);
+                    var nextLevel = user.Level + 1;
+
+                    user.Messages += 1;
+                    if (Levels.LevelScale.TryGetValue(nextLevel, out var nextLevelValue))
+                    {
+
+                        if (user.Messages >= nextLevelValue)
+                        {
+                            user.Level += 1;
+                        }
+                    }
+
+                    LevelDAL.EditEntry(user);
+                }
+                else
+                {
+                    var user = new LevelModel();
+                    user.User = name;
+                    user.Guild = e.Guild.Name;
+                    user.Level = 1;
+                    user.Messages = 1;
+                    LevelDAL.CreateEntry(user);
                 }
             };
 
