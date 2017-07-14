@@ -58,7 +58,7 @@ namespace ZomBot
 
             discord.ChannelCreated += async e =>
             {
-                await e.Channel.SendMessageAsync("Does this mean more bains to eat?");
+                await e.Channel.SendMessageAsync("Does this mean more brains to eat?");
             };
 
             discord.MessageCreated += async e =>
