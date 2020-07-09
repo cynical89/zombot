@@ -7,29 +7,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZomBot.DAL
 {
-    class LevelDAL
+    class PointDAL
     {
-        public static List<LevelModel> GetAllUserLevels()
+        public static List<PointModel> GetAllUserLevels()
         {
             using(var ctx = new BotsDbContext())
             {
-                return ctx.Levels.ToList();
+                return ctx.Points.ToList();
             }
         }
 
-        public static LevelModel GetUserLevel(long id, string guild)
+        public static PointModel GetUserLevel(long id, string guild)
         {
             using (var ctx = new BotsDbContext())
             {
-                return ctx.Levels.Single(x => x.User_Id == id && x.Guild == guild);
+                return ctx.Points.Single(x => x.User_Id == id && x.Guild == guild);
             }
         }
 
-        public static void CreateEntry(LevelModel model)
+        public static void CreateEntry(PointModel model)
         {
             using (var ctx = new BotsDbContext())
             {
-                ctx.Levels.Add(model);
+                ctx.Points.Add(model);
                 ctx.SaveChanges();
             }
         }
@@ -44,7 +44,7 @@ namespace ZomBot.DAL
             }
         }
 
-        public static void EditEntry(LevelModel model)
+        public static void EditEntry(PointModel model)
         {
             using (var ctx = new BotsDbContext())
             {
@@ -57,7 +57,7 @@ namespace ZomBot.DAL
         {
             using(var ctx = new BotsDbContext())
             {
-                return ctx.Levels.Any(x => x.User_Id == id && x.Guild == guild);
+                return ctx.Points.Any(x => x.User_Id == id && x.Guild == guild);
             }
         }
     }

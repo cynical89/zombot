@@ -13,6 +13,7 @@ namespace ZomBot.DAL
         { }
 
         public DbSet<LevelModel> Levels { get; set; }
+        public DbSet<PointModel> Points { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -20,7 +21,7 @@ namespace ZomBot.DAL
             {
                 Configuration.SetupConfig();
             }
-            options.UseSqlServer(Configuration.Config.ConnectionString);
+            options.UseNpgsql(Configuration.Config.ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

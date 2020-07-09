@@ -5,14 +5,13 @@ using System.Text;
 
 namespace ZomBot.Models
 {
-    class LevelModel
+    class PointModel
     {
         [Key]
-        public int Level_Id { get; set; }
+        public int Point_Id { get; set; }
         public long User_Id { get; set; }
         public string User { get; set; }
-        public long Messages { get; set; }
-        public int Level { get; set; }
+        public long Points { get; set; }
         public string Guild { get; set; }
     }
 }

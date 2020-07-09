@@ -1,12 +1,9 @@
-﻿using System;
-using DSharpPlus;
+﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using System;
 using System.Threading.Tasks;
-using System.IO;
-using System.Text;
-using Newtonsoft.Json;
-using ZomBot.Models;
 using ZomBot.DAL;
+using ZomBot.Models;
 
 namespace ZomBot
 {
@@ -69,10 +66,37 @@ namespace ZomBot
                         await e.Message.RespondAsync("pong");
                     return;
                 }
-                var name = $"{e.Message.Author.Username}#{e.Message.Author.Discriminator}";
-                if (LevelDAL.UserDoesExists(name, e.Guild.Name))
+
+                // Handle point ++ or point -- messages.
+                if (e.Message.MentionedUsers.Count == 1)
                 {
-                    var user = LevelDAL.GetUserLevel(name, e.Guild.Name);
+                    // Abstract this shit out of this method
+
+                    var user = e.Message.MentionedUsers[0].Id;
+
+                    // We don't want people to give points to themselves
+                    if (user == e.Message.Author.Id)
+                    {
+                        var emoji = DiscordEmoji.FromName(discord, ":no_entry_sign:");
+                        await e.Message.RespondAsync($"{emoji} Nice try.");
+                    }
+                    else
+                    {
+                        var content = e.Message.Content.Replace($"<@{user}>", "").Trim();
+                        var substr = content.Substring(0, 2);
+
+                        if (substr.Contains("++") || substr.Contains("--"))
+                        {
+                            await Messages.HandlePoints(e, discord, substr, user);
+                        }
+                    }
+                }
+
+                var name = $"{e.Message.Author.Username}#{e.Message.Author.Discriminator}";
+                long id = Convert.ToInt64(e.Message.Author.Id);
+                if (LevelDAL.UserDoesExists(id, e.Guild.Name))
+                {
+                    var user = LevelDAL.GetUserLevel(id, e.Guild.Name);
                     var nextLevel = user.Level + 1;
 
                     user.Messages += 1;
@@ -86,12 +110,15 @@ namespace ZomBot
                         }
                     }
 
+                    // Lets save off the username again just to catch it when they change it
+                    user.User = name;
                     LevelDAL.EditEntry(user);
                 }
                 else
                 {
                     var user = new LevelModel();
                     user.User = name;
+                    user.User_Id = id;
                     user.Guild = e.Guild.Name;
                     user.Level = 1;
                     user.Messages = 1;

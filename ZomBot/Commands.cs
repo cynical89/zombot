@@ -22,46 +22,54 @@ namespace ZomBot
             var emoji = DiscordEmoji.FromName(ctx.Client, ":ping_pong:");
             await ctx.RespondAsync($"{emoji} Pong! {ctx.Client.Ping}ms");
         }
-        [Command("yt")]
-        [Description("Fetches a youtube video")]
-        public async Task RunYoutubeSearch(CommandContext ctx, params string[] searchTerms)
-        {
-            var url = "https://www.youtube.com/watch?v=";
+        //[Command("starthunt")]
+        //[Description("Testing ping command")]
+        //public async Task StartHunt(CommandContext ctx)
+        //{
+        //    await ctx.TriggerTypingAsync();
+        //    await ctx.RespondAsync($"Quack quack. Hunt is started!");
+        //}
+        //[Command("youtube")]
+        //[Description("Fetches a youtube video")]
+        //[Aliases("yt")]
+        //public async Task RunYoutubeSearch(CommandContext ctx, params string[] searchTerms)
+        //{
+        //    var url = "https://www.youtube.com/watch?v=";
 
-            await ctx.TriggerTypingAsync();
-            var searchTerm = "";
-            foreach (var term in searchTerms)
-            {
-                if (searchTerm.Length == 0)
-                    searchTerm = term;
-                searchTerm += " " + term;
-            }
+        //    await ctx.TriggerTypingAsync();
+        //    var searchTerm = "";
+        //    foreach (var term in searchTerms)
+        //    {
+        //        if (searchTerm.Length == 0)
+        //            searchTerm = term;
+        //        searchTerm += " " + term;
+        //    }
 
-            var youtubeService = new YouTubeService(new BaseClientService.Initializer()
-            {
-                ApiKey = Configuration.Config.YoutubeKey,
-                ApplicationName = this.GetType().ToString()
-            });
+        //    var youtubeService = new YouTubeService(new BaseClientService.Initializer()
+        //    {
+        //        ApiKey = Configuration.Config.YoutubeKey,
+        //        ApplicationName = this.GetType().ToString()
+        //    });
 
-            var searchListRequest = youtubeService.Search.List("snippet");
-            searchListRequest.Q = searchTerm;
-            searchListRequest.MaxResults = 50;
+        //    var searchListRequest = youtubeService.Search.List("snippet");
+        //    searchListRequest.Q = searchTerm;
+        //    searchListRequest.MaxResults = 50;
 
-            var searchListResponse = await searchListRequest.ExecuteAsync();
+        //    var searchListResponse = await searchListRequest.ExecuteAsync();
 
-            List<string> videos = new List<string>();
+        //    List<string> videos = new List<string>();
 
-            foreach (var searchResult in searchListResponse.Items)
-            {
-                switch (searchResult.Id.Kind)
-                {
-                    case "youtube#video":
-                        videos.Add(String.Format("{0} - {1}{2})", searchResult.Snippet.Title, url, searchResult.Id.VideoId));
-                        break;
-                }
-            }
+        //    foreach (var searchResult in searchListResponse.Items)
+        //    {
+        //        switch (searchResult.Id.Kind)
+        //        {
+        //            case "youtube#video":
+        //                videos.Add(String.Format("{0} - {1}{2})", searchResult.Snippet.Title, url, searchResult.Id.VideoId));
+        //                break;
+        //        }
+        //    }
 
-            await ctx.RespondAsync(videos[0]);
-        }
+        //    await ctx.RespondAsync(videos[0]);
+        //}
     }
 }

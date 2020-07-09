@@ -2,5 +2,5 @@
   "token": "bot token goes here",
   "cmdPrefix": "#",
   "ytkey": "you tube api key",
-  "connectionString": "string goes here"
+  "connectionString": "Host=localhost;Database=mydatabase;Username=myuser;Password=mypassword"
 }

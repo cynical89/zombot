@@ -11,9 +11,10 @@ using ZomBot.DAL;
 namespace ZomBot.Migrations
 {
     [DbContext(typeof(BotsDbContext))]
-    partial class BotsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180220021741_user-update")]
+    partial class userupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,24 +39,6 @@ namespace ZomBot.Migrations
                     b.HasKey("Level_Id");
 
                     b.ToTable("Levels");
-                });
-
-            modelBuilder.Entity("ZomBot.Models.PointModel", b =>
-                {
-                    b.Property<int>("Point_Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Guild");
-
-                    b.Property<long>("Points");
-
-                    b.Property<string>("User");
-
-                    b.Property<long>("User_Id");
-
-                    b.HasKey("Point_Id");
-
-                    b.ToTable("Points");
                 });
 #pragma warning restore 612, 618
         }

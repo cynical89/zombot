@@ -11,9 +11,10 @@ using ZomBot.DAL;
 namespace ZomBot.Migrations
 {
     [DbContext(typeof(BotsDbContext))]
-    partial class BotsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180220022818_points")]
+    partial class points
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
